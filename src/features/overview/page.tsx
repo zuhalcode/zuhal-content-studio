@@ -3,32 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown, Plus } from "lucide-react";
 import { stats } from "./data";
 import OverviewSection from "./components/overview-section";
-
-function Badge({
-  children,
-  tone = "muted",
-}: {
-  children: React.ReactNode;
-  tone?: string;
-}) {
-  const styles: Record<string, string> = {
-    muted: "bg-muted text-muted-foreground",
-    positive:
-      "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300",
-    negative: "bg-rose-50 text-rose-700 dark:bg-rose-950/70 dark:text-rose-300",
-    warning:
-      "bg-amber-50 text-amber-700 dark:bg-amber-950/70 dark:text-amber-300",
-    violet:
-      "bg-violet-50 text-violet-700 dark:bg-violet-950/70 dark:text-violet-300",
-  };
-  return (
-    <span
-      className={`inline-flex rounded-md px-2 py-1 text-[11px] font-medium ${styles[tone] ?? styles.muted}`}
-    >
-      {children}
-    </span>
-  );
-}
+import { Badge } from "@/components/ui/badge";
 
 export default function OverviewPage() {
   return (
@@ -172,7 +147,7 @@ export default function OverviewPage() {
                     }
                   </span>
                 </span>
-                <Badge tone={i === 0 ? "warning" : "muted"}>
+                <Badge variant={i === 0 ? "destructive" : "secondary"}>
                   {i === 0 ? "High" : "Medium"}
                 </Badge>
               </button>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   Archive,
   BookOpen,
@@ -15,6 +16,7 @@ import {
   Settings,
   Sparkles,
   Zap,
+  type LucideIcon,
 } from "lucide-react";
 
 import {
@@ -31,33 +33,86 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-const navGroups = [
+interface NavItem {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  badge?: string;
+}
+
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+
+const navGroups: NavGroup[] = [
   {
     label: "WORKSPACE",
     items: [
-      ["Overview", LayoutDashboard],
-      ["Ideas", Lightbulb],
-      ["Briefs", FileText],
-      ["Content", Archive],
-      ["Research", BookOpen],
+      {
+        label: "Overview",
+        href: "/dashboard/overview",
+        icon: LayoutDashboard,
+      },
+      {
+        label: "Ideas",
+        href: "/dashboard/ideas",
+        icon: Lightbulb,
+        badge: "12",
+      },
+      {
+        label: "Briefs",
+        href: "/dashboard/briefs",
+        icon: FileText,
+      },
+      {
+        label: "Content",
+        href: "/dashboard/content",
+        icon: Archive,
+      },
+      {
+        label: "Research",
+        href: "/dashboard/research",
+        icon: BookOpen,
+      },
     ],
   },
   {
     label: "ANALYSIS",
     items: [
-      ["Experiments", FlaskConical],
-      ["Learnings", Sparkles],
-      ["Patterns", GitBranch],
+      {
+        label: "Experiments",
+        href: "/experiments",
+        icon: FlaskConical,
+      },
+      {
+        label: "Learnings",
+        href: "/learnings",
+        icon: Sparkles,
+      },
+      {
+        label: "Patterns",
+        href: "/patterns",
+        icon: GitBranch,
+      },
     ],
   },
   {
     label: "SYSTEM",
     items: [
-      ["Projects", FolderKanban],
-      ["Settings", Settings],
+      {
+        label: "Projects",
+        href: "/projects",
+        icon: FolderKanban,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
     ],
   },
-] as const;
+];
 
 const DashboardSidebar = () => {
   return (
@@ -117,29 +172,27 @@ const DashboardSidebar = () => {
 
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map(([label, Icon]) => {
-                  const active = label === "Overview";
+                {group.items.map((item) => {
+                  const Icon = item.icon;
 
                   return (
-                    <SidebarMenuItem key={label}>
+                    <SidebarMenuItem key={item.href}>
                       <SidebarMenuButton
-                        isActive={active}
-                        tooltip={label}
-                        className={
-                          active
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent"
-                        }
+                        asChild
+                        tooltip={item.label}
+                        className="text-sidebar-foreground/70 hover:bg-sidebar-accent"
                       >
-                        <Icon className="size-4 shrink-0" />
+                        <Link href={item.href}>
+                          <Icon className="size-4 shrink-0" />
 
-                        <span>{label}</span>
+                          <span>{item.label}</span>
 
-                        {label === "Ideas" && (
-                          <span className="ml-auto rounded bg-sidebar-accent px-1.5 py-0.5 text-[10px] text-muted-foreground">
-                            12
-                          </span>
-                        )}
+                          {item.label === "Ideas" && (
+                            <span className="ml-auto rounded bg-sidebar-accent px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                              12
+                            </span>
+                          )}
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
@@ -155,12 +208,15 @@ const DashboardSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
+              asChild
               tooltip="Keyboard shortcuts"
               className="text-muted-foreground"
             >
-              <CircleHelp className="size-4" />
-              <span>Keyboard shortcuts</span>
-              <span className="ml-auto text-[10px]">?</span>
+              <Link href="/shortcuts">
+                <CircleHelp className="size-4" />
+                <span>Keyboard shortcuts</span>
+                <span className="ml-auto text-[10px]">?</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
