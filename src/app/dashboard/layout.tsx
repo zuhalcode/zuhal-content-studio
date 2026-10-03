@@ -1,30 +1,33 @@
-import { redirect } from "next/navigation";
-import { createClient } from "../utils/supabase/server";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import AppSidebar from "@/components/app-sidebar";
-import DashboardHeader from "@/components/dashboard/header";
+"use client";
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const supabase = await createClient();
+import DashboardHeader from "@/components/layout/dashboard-header";
+import DashboardSidebar from "@/components/layout/dashboard-sidebar";
+import { useState, type ReactNode } from "react";
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+interface DashboardLayoutProps {
+  children: ReactNode;
+}
 
-  if (!user) return redirect("/sign-in");
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <DashboardHeader />
+    <div className="flex min-h-screen bg-background">
+      <DashboardSidebar
+        collapsed={sidebarCollapsed}
+        mobileOpen={mobileSidebarOpen}
+        onCollapsedChange={setSidebarCollapsed}
+        onMobileOpenChange={setMobileSidebarOpen}
+      />
 
-        {children}
-      </SidebarInset>
-    </SidebarProvider>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <DashboardHeader onMenuClick={() => setMobileSidebarOpen(true)} />
+
+        <main className="flex-1 px-4 md:px-8">{children}</main>
+      </div>
+    </div>
   );
-}
+};
+
+export default DashboardLayout;
