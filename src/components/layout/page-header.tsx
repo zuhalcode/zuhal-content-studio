@@ -14,7 +14,7 @@ const PageHeader = ({
   action,
 }: PageHeaderProps) => {
   return (
-    <div className="flex flex-col justify-between gap-4 py-7 lg:flex-row lg:items-end">
+    <div className="flex flex-col justify-between gap-4 py-5  lg:flex-row lg:items-end">
       <div className="min-w-0">
         {eyebrow && (
           <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">

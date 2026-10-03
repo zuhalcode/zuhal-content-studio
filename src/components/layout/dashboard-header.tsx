@@ -17,7 +17,7 @@ const DashboardHeader = ({
   onCreateClick,
 }: DashboardHeaderProps) => {
   return (
-    <header className="sticky top-0 z-20 flex h-[72px] shrink-0 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur md:px-8">
+    <header className="sticky top-0 z-0 flex h-auto py-3 shrink-0 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur md:px-8">
       {/* Left */}
       <div className="flex min-w-0 items-center gap-3">
         {/* Mobile menu */}

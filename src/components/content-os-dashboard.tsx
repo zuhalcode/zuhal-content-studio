@@ -36,33 +36,33 @@ import {
   Zap,
 } from "lucide-react";
 
-const navGroups = [
-  {
-    label: "WORKSPACE",
-    items: [
-      ["Overview", LayoutDashboard],
-      ["Ideas", Lightbulb],
-      ["Briefs", FileText],
-      ["Content", Archive],
-      ["Research", BookOpen],
-    ],
-  },
-  {
-    label: "ANALYSIS",
-    items: [
-      ["Experiments", FlaskConical],
-      ["Learnings", Sparkles],
-      ["Patterns", GitBranch],
-    ],
-  },
-  {
-    label: "SYSTEM",
-    items: [
-      ["Projects", FolderKanban],
-      ["Settings", Settings],
-    ],
-  },
-] as const;
+// const navGroups = [
+//   {
+//     label: "WORKSPACE",
+//     items: [
+//       ["Overview", LayoutDashboard],
+//       ["Ideas", Lightbulb],
+//       ["Briefs", FileText],
+//       ["Content", Archive],
+//       ["Research", BookOpen],
+//     ],
+//   },
+//   {
+//     label: "ANALYSIS",
+//     items: [
+//       ["Experiments", FlaskConical],
+//       ["Learnings", Sparkles],
+//       ["Patterns", GitBranch],
+//     ],
+//   },
+//   {
+//     label: "SYSTEM",
+//     items: [
+//       ["Projects", FolderKanban],
+//       ["Settings", Settings],
+//     ],
+//   },
+// ] as const;
 
 const projects = ["All projects", "Coding", "Books", "Coffee Brewing"];
 const ideas = [
@@ -99,6 +99,7 @@ const ideas = [
     status: "Inbox",
   },
 ];
+
 const content = [
   [
     "Why I don't put supplier_id inside products",
@@ -159,6 +160,7 @@ function Badge({
     </span>
   );
 }
+
 function Button({
   children,
   onClick,
@@ -177,6 +179,7 @@ function Button({
     </button>
   );
 }
+
 function Section({
   title,
   description,
@@ -203,6 +206,7 @@ function Section({
     </section>
   );
 }
+
 function PageHeader({
   eyebrow,
   title,
@@ -1741,7 +1745,7 @@ export function ContentOsDashboard() {
           </button>
         </div>
         <nav className="flex-1 overflow-y-auto px-3 py-2">
-          {navGroups.map((group) => (
+          {/* {navGroups.map((group) => (
             <div key={group.label} className="mb-6">
               <div className="mb-2 px-2 text-[10px] font-semibold tracking-[0.16em] text-muted-foreground">
                 {group.label}
@@ -1764,7 +1768,7 @@ export function ContentOsDashboard() {
                 ))}
               </div>
             </div>
-          ))}
+          ))} */}
         </nav>
         <div className="border-t border-sidebar-border p-3">
           <button className="flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-sm text-muted-foreground hover:bg-sidebar-accent">
