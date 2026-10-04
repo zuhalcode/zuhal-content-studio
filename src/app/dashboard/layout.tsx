@@ -3,7 +3,7 @@
 import DashboardHeader from "@/components/layout/dashboard-header";
 import DashboardSidebar from "@/components/layout/dashboard-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { type ReactNode } from "react";
+import { CSSProperties, type ReactNode } from "react";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -11,7 +11,13 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width-icon": "4.0rem",
+        } as CSSProperties
+      }
+    >
       <DashboardSidebar />
 
       <SidebarInset>

@@ -13,6 +13,7 @@ import {
   LayoutDashboard,
   Lightbulb,
   MoreHorizontal,
+  PanelLeft,
   Settings,
   Sparkles,
   Zap,
@@ -31,6 +32,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 interface NavItem {
@@ -102,8 +104,58 @@ const navGroups: NavGroup[] = [
     items: [
       {
         label: "Projects",
-        href: "/projects",
+        href: "/dashboard/projects",
         icon: FolderKanban,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
+      },
+      {
+        label: "Settings",
+        href: "/settings",
+        icon: Settings,
       },
       {
         label: "Settings",
@@ -116,95 +168,80 @@ const navGroups: NavGroup[] = [
 
 const DashboardSidebar = () => {
   return (
-    <Sidebar collapsible="icon">
-      {/* Brand */}
-      <SidebarHeader className="h-[72px] border-b border-sidebar-border p-4">
-        <div className="flex min-w-0 items-center gap-3">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-foreground text-background">
-            <Zap className="size-4" />
-          </div>
-
-          <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-            <div className="truncate text-sm font-semibold tracking-tight">
-              Content OS 12
+    <Sidebar collapsible="icon" className="h-svh bg-blue-500 ">
+      {/* Header */}
+      <SidebarHeader className="h-[72px] shrink-0 border-b border-sidebar-border p-3">
+        <div className="flex h-full items-center gap-2">
+          <div className="flex min-w-0 flex-1 items-center gap-3 group-data-[collapsible=icon]:hidden">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-foreground text-background">
+              <Zap className="size-4" />
             </div>
 
-            <div className="truncate text-[11px] text-muted-foreground">
-              Personal workspace
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold tracking-tight">
+                Content OS 12
+              </div>
+
+              <div className="truncate text-[11px] text-muted-foreground">
+                Personal workspace
+              </div>
             </div>
           </div>
+
+          <SidebarTrigger
+            className="size-8 shrink-0"
+            aria-label="Toggle sidebar"
+          />
         </div>
       </SidebarHeader>
 
-      {/* Project */}
-      <div className="p-3 group-data-[collapsible=icon]:hidden">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              size="lg"
-              className="h-auto border border-sidebar-border bg-sidebar-accent/50 hover:bg-sidebar-accent"
-            >
-              <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-muted">
-                <FolderKanban className="size-4" />
-              </div>
+      {/* ONLY SCROLLABLE AREA */}
+      <SidebarContent className="min-h-0 flex-1">
+        <div className="overflow-y-scroll">
+          {navGroups.map((group) => (
+            <SidebarGroup key={group.label}>
+              <SidebarGroupLabel className="text-[10px] font-semibold tracking-[0.16em] group-data-[collapsible=icon]:hidden">
+                {group.label}
+              </SidebarGroupLabel>
 
-              <div className="min-w-0 flex-1 text-left">
-                <div className="truncate text-xs font-medium">All projects</div>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {group.items.map((item, index) => {
+                    const Icon = item.icon;
 
-                <div className="text-[10px] text-muted-foreground">
-                  Project scope
-                </div>
-              </div>
-
-              <ChevronDown className="size-3.5 shrink-0 text-muted-foreground" />
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </div>
-
-      {/* Navigation */}
-      <SidebarContent>
-        {navGroups.map((group) => (
-          <SidebarGroup key={group.label}>
-            <SidebarGroupLabel className="text-[10px] font-semibold tracking-[0.16em] group-data-[collapsible=icon]:hidden">
-              {group.label}
-            </SidebarGroupLabel>
-
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-
-                  return (
-                    <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton
-                        asChild
-                        tooltip={item.label}
-                        className="text-sidebar-foreground/70 hover:bg-sidebar-accent"
+                    return (
+                      <SidebarMenuItem
+                        key={`${group.label}-${item.label}-${index}`}
                       >
-                        <Link href={item.href}>
-                          <Icon className="size-4 shrink-0" />
+                        <SidebarMenuButton
+                          asChild
+                          tooltip={item.label}
+                          className="text-sidebar-foreground/70 hover:bg-sidebar-accent"
+                        >
+                          <Link href={item.href}>
+                            <Icon className="size-4 shrink-0" />
 
-                          <span>{item.label}</span>
+                            <span>{item.label}</span>
 
-                          {item.label === "Ideas" && (
-                            <span className="ml-auto rounded bg-sidebar-accent px-1.5 py-0.5 text-[10px] text-muted-foreground">
-                              12
-                            </span>
-                          )}
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+                            {item.badge && (
+                              <span className="ml-auto rounded bg-sidebar-accent px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                                {item.badge}
+                              </span>
+                            )}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </div>
       </SidebarContent>
 
       {/* Footer */}
-      <SidebarFooter>
+      <SidebarFooter className="shrink-0">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
