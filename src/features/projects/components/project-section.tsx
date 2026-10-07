@@ -1,4 +1,4 @@
-export default function OverviewSection({
+export default function ProjectSection({
   title,
   description,
   children,

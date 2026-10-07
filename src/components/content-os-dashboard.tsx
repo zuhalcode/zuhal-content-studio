@@ -36,33 +36,33 @@ import {
   Zap,
 } from "lucide-react";
 
-// const navGroups = [
-//   {
-//     label: "WORKSPACE",
-//     items: [
-//       ["Overview", LayoutDashboard],
-//       ["Ideas", Lightbulb],
-//       ["Briefs", FileText],
-//       ["Content", Archive],
-//       ["Research", BookOpen],
-//     ],
-//   },
-//   {
-//     label: "ANALYSIS",
-//     items: [
-//       ["Experiments", FlaskConical],
-//       ["Learnings", Sparkles],
-//       ["Patterns", GitBranch],
-//     ],
-//   },
-//   {
-//     label: "SYSTEM",
-//     items: [
-//       ["Projects", FolderKanban],
-//       ["Settings", Settings],
-//     ],
-//   },
-// ] as const;
+const navGroups = [
+  {
+    label: "WORKSPACE",
+    items: [
+      ["Overview", LayoutDashboard],
+      ["Ideas", Lightbulb],
+      ["Briefs", FileText],
+      ["Content", Archive],
+      ["Research", BookOpen],
+    ],
+  },
+  {
+    label: "ANALYSIS",
+    items: [
+      ["Experiments", FlaskConical],
+      ["Learnings", Sparkles],
+      ["Patterns", GitBranch],
+    ],
+  },
+  {
+    label: "SYSTEM",
+    items: [
+      ["Projects", FolderKanban],
+      ["Settings", Settings],
+    ],
+  },
+] as const;
 
 const projects = ["All projects", "Coding", "Books", "Coffee Brewing"];
 const ideas = [
@@ -1648,6 +1648,7 @@ export function ContentOsDashboard() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [theme, setThemeState] = useState<"light" | "dark">("light");
+
   useEffect(() => {
     const saved = window.localStorage.getItem("content-os-theme") as
       | "light"
@@ -1676,15 +1677,18 @@ export function ContentOsDashboard() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
   const setTheme = (next: "light" | "dark") => {
     setThemeState(next);
     window.localStorage.setItem("content-os-theme", next);
     document.documentElement.classList.toggle("dark", next === "dark");
   };
+
   const navigate = (page: string) => {
     setActive(page);
     setMobileNav(false);
   };
+
   const body = useMemo(() => {
     if (active === "Overview")
       return <Overview navigate={navigate} project={project} />;
@@ -1698,6 +1702,7 @@ export function ContentOsDashboard() {
     if (active === "Projects") return <Projects />;
     return <SettingsPage theme={theme} setTheme={setTheme} />;
   }, [active, project, theme]);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <aside
@@ -1745,7 +1750,7 @@ export function ContentOsDashboard() {
           </button>
         </div>
         <nav className="flex-1 overflow-y-auto px-3 py-2">
-          {/* {navGroups.map((group) => (
+          {navGroups.map((group) => (
             <div key={group.label} className="mb-6">
               <div className="mb-2 px-2 text-[10px] font-semibold tracking-[0.16em] text-muted-foreground">
                 {group.label}
@@ -1768,7 +1773,7 @@ export function ContentOsDashboard() {
                 ))}
               </div>
             </div>
-          ))} */}
+          ))}
         </nav>
         <div className="border-t border-sidebar-border p-3">
           <button className="flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-sm text-muted-foreground hover:bg-sidebar-accent">

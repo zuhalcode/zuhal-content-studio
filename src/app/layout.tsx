@@ -5,6 +5,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
 import { Metadata, Viewport } from "next";
+import { Providers } from "./providers";
 
 const siteUrl = "https://majumakmur.netlify.app";
 
@@ -76,15 +77,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          {process.env.NODE_ENV === "production" && <Analytics />}
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            {process.env.NODE_ENV === "production" && <Analytics />}
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

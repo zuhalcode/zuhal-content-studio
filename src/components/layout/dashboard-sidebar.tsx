@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
+
 import {
   Archive,
   BookOpen,
-  ChevronDown,
   CircleHelp,
   FileText,
   FlaskConical,
@@ -13,7 +13,6 @@ import {
   LayoutDashboard,
   Lightbulb,
   MoreHorizontal,
-  PanelLeft,
   Settings,
   Sparkles,
   Zap,
@@ -67,38 +66,38 @@ const navGroups: NavGroup[] = [
         href: "/dashboard/briefs",
         icon: FileText,
       },
-      {
-        label: "Content",
-        href: "/dashboard/content",
-        icon: Archive,
-      },
-      {
-        label: "Research",
-        href: "/dashboard/research",
-        icon: BookOpen,
-      },
+      // {
+      //   label: "Content",
+      //   href: "/dashboard/content",
+      //   icon: Archive,
+      // },
+      // {
+      //   label: "Research",
+      //   href: "/dashboard/research",
+      //   icon: BookOpen,
+      // },
     ],
   },
-  {
-    label: "ANALYSIS",
-    items: [
-      {
-        label: "Experiments",
-        href: "/experiments",
-        icon: FlaskConical,
-      },
-      {
-        label: "Learnings",
-        href: "/learnings",
-        icon: Sparkles,
-      },
-      {
-        label: "Patterns",
-        href: "/patterns",
-        icon: GitBranch,
-      },
-    ],
-  },
+  // {
+  //   label: "ANALYSIS",
+  //   items: [
+  //     {
+  //       label: "Experiments",
+  //       href: "/experiments",
+  //       icon: FlaskConical,
+  //     },
+  //     {
+  //       label: "Learnings",
+  //       href: "/learnings",
+  //       icon: Sparkles,
+  //     },
+  //     {
+  //       label: "Patterns",
+  //       href: "/patterns",
+  //       icon: GitBranch,
+  //     },
+  //   ],
+  // },
   {
     label: "SYSTEM",
     items: [
@@ -107,68 +106,18 @@ const navGroups: NavGroup[] = [
         href: "/dashboard/projects",
         icon: FolderKanban,
       },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
-      {
-        label: "Settings",
-        href: "/settings",
-        icon: Settings,
-      },
+      // {
+      //   label: "Settings",
+      //   href: "/settings",
+      //   icon: Settings,
+      // },
     ],
   },
 ];
 
 const DashboardSidebar = () => {
   return (
-    <Sidebar collapsible="icon" className="h-svh bg-blue-500 ">
+    <Sidebar collapsible="icon" className="h-svh transition-all duration-400 ">
       {/* Header */}
       <SidebarHeader className="h-[72px] shrink-0 border-b border-sidebar-border p-3">
         <div className="flex h-full items-center gap-2">
@@ -197,7 +146,7 @@ const DashboardSidebar = () => {
 
       {/* ONLY SCROLLABLE AREA */}
       <SidebarContent className="min-h-0 flex-1">
-        <div className="overflow-y-scroll">
+        <div className="overflow-y-auto">
           {navGroups.map((group) => (
             <SidebarGroup key={group.label}>
               <SidebarGroupLabel className="text-[10px] font-semibold tracking-[0.16em] group-data-[collapsible=icon]:hidden">
