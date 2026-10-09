@@ -39,7 +39,6 @@ api.interceptors.request.use(
   },
 );
 
-// Response interceptor
 api.interceptors.response.use(
   async (response) => {
     console.log(
