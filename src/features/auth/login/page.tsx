@@ -13,10 +13,15 @@ export default function LoginPage() {
     try {
       console.log("[Login] Submitting credentials");
 
-      await login(values);
+      const result = await login(values);
+      console.log("[Login] API result:", result);
 
-      console.log("[Login] Success, redirecting...");
+      console.log(
+        "[Login] access_token cookie visible to JS:",
+        document.cookie.includes("access_token="),
+      );
 
+      console.log("[Login] Redirecting to dashboard");
       router.replace("/dashboard/overview");
     } catch (error) {
       console.error("[Login] Failed:", error);

@@ -11,13 +11,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(DASHBOARD_PATH, request.url));
   }
 
-  const isProtectedRoute =
-    pathname === "/" || pathname.startsWith("/dashboard");
-
-  if (isProtectedRoute && !hasAccessToken) {
-    return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
-  }
-
   return NextResponse.next();
 }
 

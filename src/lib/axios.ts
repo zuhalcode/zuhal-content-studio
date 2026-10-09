@@ -54,7 +54,7 @@ api.interceptors.response.use(
       endpoint: `${error.config?.baseURL ?? ""}${error.config?.url ?? ""}`,
       status: error.response?.status,
       message: error.message,
-      response: error.response?.data,
+      response: JSON.stringify(error.response?.data, null, 2),
     });
 
     return Promise.reject(error);
