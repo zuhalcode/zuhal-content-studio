@@ -11,11 +11,15 @@ export default function LoginPage() {
 
   async function handleLogin(values: LoginFormValues) {
     try {
+      console.log("[Login] Submitting credentials");
+
       await login(values);
+
+      console.log("[Login] Success, redirecting...");
 
       router.replace("/dashboard/overview");
     } catch (error) {
-      console.log(error);
+      console.error("[Login] Failed:", error);
     }
   }
 
