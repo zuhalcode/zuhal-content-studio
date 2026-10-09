@@ -1,6 +1,7 @@
 import env from "@/config/env";
 import axios from "axios";
 
+const API_TIMEOUT = 60_000;
 const headers = {
   "Content-Type": "application/json",
 };
@@ -12,7 +13,7 @@ const api = axios.create({
   headers,
 });
 
-// Add a request interceptor to include the access token in the Authorization header
+// Request interceptor
 api.interceptors.request.use(
   async (config) => {
     const token = "";
@@ -21,16 +22,44 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
+    console.log(
+      `[API REQUEST] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`,
+      {
+        params: config.params,
+        hasBearerToken: Boolean(token),
+        timeout: config.timeout,
+      },
+    );
+
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => {
+    console.error("[API REQUEST ERROR]", error.message);
+    return Promise.reject(error);
+  },
 );
 
+// Response interceptor
 api.interceptors.response.use(
   async (response) => {
+    console.log(
+      `[API RESPONSE] ${response.status} ${response.config.method?.toUpperCase()} ${response.config.baseURL}${response.config.url}`,
+      response.data,
+    );
+
     return response;
   },
-  (error) => Promise.reject(error),
+  (error) => {
+    console.error("[API ERROR]", {
+      method: error.config?.method?.toUpperCase(),
+      endpoint: `${error.config?.baseURL ?? ""}${error.config?.url ?? ""}`,
+      status: error.response?.status,
+      message: error.message,
+      response: error.response?.data,
+    });
+
+    return Promise.reject(error);
+  },
 );
 
 export default api;
