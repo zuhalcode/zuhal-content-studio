@@ -45,6 +45,13 @@ export default function ProjectPage() {
 
       {loading ? (
         <ProjectListSkeleton />
+      ) : projects.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-border p-12 text-center">
+          <h3 className="text-sm font-semibold">No projects yet</h3>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Create your first strategic foundation to begin organizing topics and content.
+          </p>
+        </div>
       ) : (
         <section aria-label="Projects" className="grid gap-4 md:grid-cols-3">
           {projects.map((project) => (

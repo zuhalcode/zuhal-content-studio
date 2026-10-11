@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/features/auth/use-auth";
 import { authService } from "@/features/auth/auth.services";
@@ -79,38 +80,38 @@ const navGroups: NavGroup[] = [
         href: "/dashboard/briefs",
         icon: FileText,
       },
-      // {
-      //   label: "Content",
-      //   href: "/dashboard/content",
-      //   icon: Archive,
-      // },
-      // {
-      //   label: "Research",
-      //   href: "/dashboard/research",
-      //   icon: BookOpen,
-      // },
+      {
+        label: "Content",
+        href: "/dashboard/content",
+        icon: Archive,
+      },
+      {
+        label: "Research",
+        href: "/dashboard/research",
+        icon: BookOpen,
+      },
     ],
   },
-  // {
-  //   label: "ANALYSIS",
-  //   items: [
-  //     {
-  //       label: "Experiments",
-  //       href: "/experiments",
-  //       icon: FlaskConical,
-  //     },
-  //     {
-  //       label: "Learnings",
-  //       href: "/learnings",
-  //       icon: Sparkles,
-  //     },
-  //     {
-  //       label: "Patterns",
-  //       href: "/patterns",
-  //       icon: GitBranch,
-  //     },
-  //   ],
-  // },
+  {
+    label: "ANALYSIS",
+    items: [
+      {
+        label: "Experiments",
+        href: "/dashboard/experiments",
+        icon: FlaskConical,
+      },
+      {
+        label: "Learnings",
+        href: "/dashboard/learnings",
+        icon: Sparkles,
+      },
+      {
+        label: "Patterns",
+        href: "/dashboard/patterns",
+        icon: GitBranch,
+      },
+    ],
+  },
   {
     label: "SYSTEM",
     items: [
@@ -119,16 +120,17 @@ const navGroups: NavGroup[] = [
         href: "/dashboard/projects",
         icon: FolderKanban,
       },
-      // {
-      //   label: "Settings",
-      //   href: "/settings",
-      //   icon: Settings,
-      // },
+      {
+        label: "Settings",
+        href: "/dashboard/settings",
+        icon: Settings,
+      },
     ],
   },
 ];
 
 const DashboardSidebar = () => {
+  const pathname = usePathname();
   const { logout, loading } = useAuth();
   const { isMobile } = useSidebar();
   const [user, setUser] = useState<{ id?: string; email?: string } | null>(null);
@@ -205,6 +207,7 @@ const DashboardSidebar = () => {
                       >
                         <SidebarMenuButton
                           asChild
+                          isActive={pathname === item.href}
                           tooltip={item.label}
                           className="text-sidebar-foreground/70 hover:bg-sidebar-accent"
                         >
