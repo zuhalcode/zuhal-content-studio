@@ -16,21 +16,6 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   async (config) => {
-    const token = "";
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    console.log(
-      `[API REQUEST] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`,
-      {
-        params: config.params,
-        hasBearerToken: Boolean(token),
-        timeout: config.timeout,
-      },
-    );
-
     return config;
   },
   (error) => {
@@ -40,22 +25,20 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  async (response) => {
-    console.log(
-      `[API RESPONSE] ${response.status} ${response.config.method?.toUpperCase()} ${response.config.baseURL}${response.config.url}`,
-      response.data,
-    );
-
+  (response) => {
     return response;
   },
   (error) => {
-    console.error("[API ERROR]", {
-      method: error.config?.method?.toUpperCase(),
-      endpoint: `${error.config?.baseURL ?? ""}${error.config?.url ?? ""}`,
-      status: error.response?.status,
-      message: error.message,
-      response: JSON.stringify(error.response?.data, null, 2),
-    });
+    const status = error.response?.status;
+
+    // When an API call fails with 401 (invalid/expired session),
+    // redirect to /login if the user is currently on a protected route.
+    if (status === 401 && typeof window !== "undefined") {
+      const currentPath = window.location.pathname;
+      if (!currentPath.startsWith("/login")) {
+        window.location.href = "/login";
+      }
+    }
 
     return Promise.reject(error);
   },

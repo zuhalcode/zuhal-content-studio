@@ -11,18 +11,9 @@ export default function LoginPage() {
 
   async function handleLogin(values: LoginFormValues) {
     try {
-      console.log("[Login] Submitting credentials");
-
-      const result = await login(values);
-      console.log("[Login] API result:", result);
-
-      console.log(
-        "[Login] access_token cookie visible to JS:",
-        document.cookie.includes("access_token="),
-      );
-
-      console.log("[Login] Redirecting to dashboard");
+      await login(values);
       router.replace("/dashboard/overview");
+      router.refresh();
     } catch (error) {
       console.error("[Login] Failed:", error);
     }

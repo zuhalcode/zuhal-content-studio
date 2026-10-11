@@ -7,11 +7,21 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hasAccessToken = Boolean(request.cookies.get("access_token")?.value);
 
+  // Authenticated users should not access the login page
   if (pathname === LOGIN_PATH && hasAccessToken) {
     return NextResponse.redirect(new URL(DASHBOARD_PATH, request.url));
   }
 
-  const isProtectedPath = pathname === "/" || pathname.startsWith("/dashboard");
+  // Root route policy
+  if (pathname === "/") {
+    if (hasAccessToken) {
+      return NextResponse.redirect(new URL(DASHBOARD_PATH, request.url));
+    }
+    return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
+  }
+
+  // Protected dashboard routes
+  const isProtectedPath = pathname.startsWith("/dashboard");
   if (isProtectedPath && !hasAccessToken) {
     return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
