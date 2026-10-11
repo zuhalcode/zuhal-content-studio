@@ -23,4 +23,21 @@ export const authService = {
 
     return response.data;
   },
+
+  async logout() {
+    const response = await api.post<{ message: string }>("/auth/logout");
+
+    return response.data;
+  },
+
+  async me() {
+    const response = await api.get<{
+      data: {
+        id: string;
+        email: string;
+      };
+    }>("/auth/me");
+
+    return response.data;
+  },
 };

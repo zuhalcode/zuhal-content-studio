@@ -32,8 +32,31 @@ export function useAuth() {
     }
   }, []);
 
+  const logout = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await authService.logout();
+    } catch (err: unknown) {
+      const message = axios.isAxiosError<{ message?: string }>(err)
+        ? (err.response?.data?.message ?? "Unable to log out.")
+        : "An unexpected error occurred. Please try again.";
+
+      setError(message);
+    } finally {
+      document.cookie =
+        "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie =
+        "refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      setLoading(false);
+      window.location.href = "/login";
+    }
+  }, []);
+
   return {
     login,
+    logout,
     loading,
     error,
   };

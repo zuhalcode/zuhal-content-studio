@@ -99,7 +99,7 @@ export default function LoginPage() {
           <p className="mt-16 text-center text-[11px] leading-5 text-zinc-600 lg:mt-20">
             By continuing, you agree to Orbit&apos;s{" "}
             <a
-              href="#terms"
+              href="/terms"
               className="underline underline-offset-2 transition hover:text-zinc-400"
             >
               Terms of Service

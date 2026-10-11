@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/features/auth/use-auth";
+import { authService } from "@/features/auth/auth.services";
 
 import {
   Archive,
@@ -12,6 +15,7 @@ import {
   GitBranch,
   LayoutDashboard,
   Lightbulb,
+  LogOut,
   MoreHorizontal,
   Settings,
   Sparkles,
@@ -32,7 +36,16 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NavItem {
   label: string;
@@ -116,6 +129,34 @@ const navGroups: NavGroup[] = [
 ];
 
 const DashboardSidebar = () => {
+  const { logout, loading } = useAuth();
+  const { isMobile } = useSidebar();
+  const [user, setUser] = useState<{ id?: string; email?: string } | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    authService
+      .me()
+      .then((res) => {
+        if (mounted && res?.data) {
+          setUser(res.data);
+        }
+      })
+      .catch(() => {
+        // Silently ignore if unauthenticated or error
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const displayName = user?.email ? user.email.split("@")[0] : "Alex Morgan";
+  const displayRole = user?.email ?? "Owner";
+  const initials = user?.email
+    ? user.email.substring(0, 2).toUpperCase()
+    : "AM";
+
   return (
     <Sidebar collapsible="icon" className="h-svh transition-all duration-400 ">
       {/* Header */}
@@ -205,26 +246,77 @@ const DashboardSidebar = () => {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={() => logout()}
+              disabled={loading}
+              tooltip="Log out"
+              className="cursor-pointer text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive active:bg-destructive/15"
+            >
+              <LogOut className="size-4" />
+              <span>{loading ? "Logging out..." : "Log out"}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
 
         <div className="border-t border-sidebar-border pt-3">
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg" tooltip="Alex Morgan">
-                <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-foreground text-[10px] font-semibold text-background">
-                  AM
-                </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    size="lg"
+                    tooltip={displayName}
+                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  >
+                    <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-foreground text-[10px] font-semibold text-background">
+                      {initials}
+                    </div>
 
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-xs font-medium">
-                    Alex Morgan
-                  </div>
+                    <div className="min-w-0 flex-1 text-left">
+                      <div className="truncate text-xs font-medium">
+                        {displayName}
+                      </div>
 
-                  <div className="text-[10px] text-muted-foreground">Owner</div>
-                </div>
+                      <div className="truncate text-[10px] text-muted-foreground">
+                        {displayRole}
+                      </div>
+                    </div>
 
-                <MoreHorizontal className="size-4" />
-              </SidebarMenuButton>
+                    <MoreHorizontal className="size-4 shrink-0" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                  side={isMobile ? "bottom" : "right"}
+                  align="end"
+                  sideOffset={4}
+                >
+                  <DropdownMenuLabel className="p-0 font-normal">
+                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                      <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-foreground text-[10px] font-semibold text-background">
+                        {initials}
+                      </div>
+                      <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-semibold">{displayName}</span>
+                        <span className="truncate text-xs text-muted-foreground">
+                          {displayRole}
+                        </span>
+                      </div>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => logout()}
+                    disabled={loading}
+                    className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
+                  >
+                    <LogOut className="mr-2 size-4" />
+                    <span>{loading ? "Logging out..." : "Log out"}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </SidebarMenuItem>
           </SidebarMenu>
         </div>
